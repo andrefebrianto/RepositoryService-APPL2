@@ -4,12 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "Dataset")
 public class Dataset implements Serializable {
 
 	/**
@@ -23,8 +28,8 @@ public class Dataset implements Serializable {
 	@Column(nullable = false)
 	private String name;
 	
-	@OneToMany
-	@JoinColumn(referencedColumnName = "audioId")
+	@OneToMany(mappedBy = "dataset")
+	@JsonIgnoreProperties("dataset")
 	private List<Audio> audios;
 	
 	public Dataset()

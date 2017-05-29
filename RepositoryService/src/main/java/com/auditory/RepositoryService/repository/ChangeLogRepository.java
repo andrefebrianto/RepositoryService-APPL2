@@ -10,7 +10,7 @@ import com.auditory.RepositoryService.model.ChangeLog;
 import com.auditory.RepositoryService.model.RepositoryManager;
 
 public interface ChangeLogRepository extends JpaRepository<ChangeLog, Timestamp> {
-	public List<ChangeLog> findByChangeType(String changeType);
+	public List<ChangeLog> findByAudioAndManager(Audio audio, RepositoryManager manager);
 	public List<ChangeLog> findByAudio(Audio audio);
 	public List<ChangeLog> findByManager(RepositoryManager manager);
 }

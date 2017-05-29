@@ -4,9 +4,13 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "RepositoryManager")
 public class RepositoryManager implements Serializable {
 
 	/**
@@ -19,7 +23,7 @@ public class RepositoryManager implements Serializable {
 	@Column(nullable = false)
 	private String password;
 	
-	@OneToMany(mappedBy = "changeTime")
+	@OneToMany(mappedBy = "manager")
 	private List<ChangeLog> changelogs;
 	
 	public RepositoryManager()
@@ -63,8 +67,13 @@ public class RepositoryManager implements Serializable {
 		this.changelogs.remove(log);
 	}
 	
-	public List<ChangeLog> getAllChangeLogs()
+	public List<ChangeLog> getChangeLogs()
 	{
 		return changelogs;
+	}
+	
+	public void setChangeLog(List<ChangeLog> changelogs)
+	{
+		this.changelogs = changelogs;
 	}
 }

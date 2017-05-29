@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.auditory.RepositoryService.model.Album;
 
-public interface AlbumRepository extends JpaRepository<Album, char[]> {
+public interface AlbumRepository extends JpaRepository<Album, Long> {
 	public List<Album> findByName(String name);
 	public List<Album> findByReleaseDate(Date releaseDate);
 }

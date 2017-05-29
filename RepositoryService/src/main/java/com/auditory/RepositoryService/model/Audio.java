@@ -13,6 +13,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Audio")
 public class Audio implements Serializable {
@@ -36,22 +38,37 @@ public class Audio implements Serializable {
 	private String filePath;
 	
 	@ManyToMany(mappedBy = "audios")
+	@JsonIgnoreProperties("audios")
 	private List<Tag> tags;
 	
 	@ManyToOne(optional = false)
 	@JoinColumn(referencedColumnName = "categoryId")
+	@JsonIgnoreProperties("audios")
 	private Category category;
+	
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "albumId")
+	@JsonIgnoreProperties("audios")
+	private Album album;
+	
+	@ManyToOne
+	@JoinColumn(referencedColumnName = "datasetId")
+	@JsonIgnoreProperties("audios")
+	private Dataset dataset;
 	
 	public Audio()
 	{
 		
 	}
 	
-	public Audio(String audioTitle, int length, String filePath)
+	public Audio(String audioTitle, int length, String filePath, List<Tag> tags, Category category, Album album)
 	{
 		this.audioTitle = audioTitle;
 		this.length = length;
 		this.filePath = filePath;
+		this.tags = tags;
+		this.category = category;
+		this.album = album;
 	}
 	
 	public long getAudioId()
@@ -100,9 +117,14 @@ public class Audio implements Serializable {
 		this.tags.remove(tag);
 	}
 	
-	public List<Tag> getAllTags()
+	public List<Tag> getTags()
 	{
 		return tags;
+	}
+	
+	public void setTags(List<Tag> tags)
+	{
+		this.tags = tags;
 	}
 	
 	public void setCategory(Category category)
@@ -113,5 +135,15 @@ public class Audio implements Serializable {
 	public Category getCategory()
 	{
 		return category;
+	}
+	
+	public void setAlbum(Album album)
+	{
+		this.album = album;
+	}
+	
+	public Album getAlbum()
+	{
+		return album;
 	}
 }

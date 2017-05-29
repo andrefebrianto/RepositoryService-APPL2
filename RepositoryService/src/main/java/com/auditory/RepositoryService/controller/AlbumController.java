@@ -17,35 +17,60 @@ import com.auditory.RepositoryService.model.*;
 @RequestMapping(value = "/album")
 public class AlbumController {
 	@Autowired
-	AlbumRepository repository;
+	AlbumRepository albRepository;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Album> getAllAlbum()
+	public List<Album> getAllAlbum(@RequestParam(value = "name", required = false) String albumName)
 	{
-		return repository.findAll();
-	}
-	
-	@RequestMapping(value = "/{albumId}", method = RequestMethod.GET)
-	public Album findAlbumByAlbumId(@PathVariable("albumId") char albumId[])
-	{
-		Album album = new Album();
-		album = repository.findOne(albumId);
-		return album;
-	}
-	
-	@RequestMapping(method = RequestMethod.GET)
-	public List<Album> findAlbumByName(@RequestParam("name") String name)
-	{
-		List<Album> albums = repository.findByName(name);
+		List<Album> albums = null;
+		try{
+			if(albumName != null)
+			{
+				albums = albRepository.findByName(albumName);
+			}
+			else
+			{
+				albums = albRepository.findAll(); 
+			}
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e);
+		}
 		return albums;
 	}
 	
+	@RequestMapping(value = "/{albumId}", method = RequestMethod.GET)
+	public Album findAlbumByAlbumId(@PathVariable("albumId") long albumId)
+	{
+		Album album = null;
+		try{
+			album = albRepository.findOne(albumId);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return album;
+	}
+/*
+	@RequestMapping(method = RequestMethod.GET)
+	public Album findAlbumByAlbumId(@RequestParam("albumId") char albumId[])
+	{
+		Album album = null;
+		try{
+			album = albRepository.findOne(albumId);
+		}
+		catch (Exception e) {
+			// TODO: handle exception
+		}
+		return album;
+	}
+*/
 	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public Album saveAlbum(@RequestBody Album album)
 	{
-		try
-		{
-		repository.save(album);
+		try{
+			albRepository.save(album);
 		}
 		catch (Exception e) {
 			// TODO: handle exception
@@ -54,9 +79,13 @@ public class AlbumController {
 		return album;
 	}
 	
-	@RequestMapping(value = "/{albumId}", method = RequestMethod.GET)
-	public void deleteAlbumByAlbumId(@PathVariable("albumId") char albumId[])
+	@RequestMapping(value = "/{albumId}", method = RequestMethod.DELETE)
+	public void deleteAlbumByAlbumId(@PathVariable("albumId") long albumId)
 	{
-		repository.delete(albumId);
+		try {
+			albRepository.delete(albumId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}	
 	}
 }

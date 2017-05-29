@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "Tag")
 public class Tag implements Serializable {
@@ -29,6 +31,7 @@ public class Tag implements Serializable {
 	
 	@ManyToMany
 	@JoinColumn(referencedColumnName = "audioId")
+	@JsonIgnoreProperties("tags")
 	private List<Audio> audios;	
 	
 	public Tag()

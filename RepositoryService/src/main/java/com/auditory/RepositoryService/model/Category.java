@@ -4,11 +4,17 @@ import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+@Entity
+@Table(name = "Category")
 public class Category implements Serializable {
 
 	/**
@@ -23,6 +29,7 @@ public class Category implements Serializable {
 	private String name;
 	
 	@OneToMany(mappedBy = "category")
+	@JsonIgnoreProperties("album")
 	private List<Audio> audios;
 	
 	public Category()
@@ -60,8 +67,13 @@ public class Category implements Serializable {
 		this.audios.remove(audio);
 	}
 	
-	public List<Audio> getAllAudios()
+	public List<Audio> getAudios()
 	{
 		return audios;
+	}
+	
+	public void setAudios(List<Audio> audios)
+	{
+		this.audios = audios;
 	}
 }

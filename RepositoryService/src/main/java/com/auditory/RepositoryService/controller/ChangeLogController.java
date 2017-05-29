@@ -3,10 +3,10 @@ package com.auditory.RepositoryService.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.auditory.RepositoryService.repository.AudioRepository;
@@ -15,7 +15,7 @@ import com.auditory.RepositoryService.repository.RepositoryManagerRepository;
 import com.auditory.RepositoryService.model.*;
 
 @RestController
-@RequestMapping(value = "changelog")
+@RequestMapping(value = "/changelog")
 public class ChangeLogController {
 	@Autowired
 	ChangeLogRepository clRepository;
@@ -27,12 +27,35 @@ public class ChangeLogController {
 	RepositoryManagerRepository rmRepository;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<ChangeLog> getAllChangeLogs()
+	public List<ChangeLog> getChangeLogs(@RequestParam(value = "managerId", required = false) String managerId,
+			@RequestParam(value = "audioId", required = false) long audioId)
 	{
-		List<ChangeLog> changeLogs = clRepository.findAll();
+		List<ChangeLog> changeLogs = null;
+		try {
+			if(managerId != null && audioId >= 0)
+			{
+				RepositoryManager manager = rmRepository.findOne(managerId);
+				Audio audio = audRepository.findOne(audioId);
+				changeLogs = clRepository.findByAudioAndManager(audio, manager);
+			}
+			else if (managerId != null)
+			{
+				RepositoryManager manager = rmRepository.findOne(managerId);
+				changeLogs = clRepository.findByManager(manager);
+			}
+			else if (audioId >= 0) {
+				Audio audio = audRepository.findOne(audioId);
+				changeLogs = clRepository.findByAudio(audio);
+			}
+			else {
+				changeLogs = clRepository.findAll();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return changeLogs;
 	}
-	
+/*
 	@RequestMapping(value = "/{managerId}", method = RequestMethod.GET)
 	public List<ChangeLog> findChangeLogsByManger(@PathVariable("managerId") String managerId)
 	{
@@ -48,7 +71,7 @@ public class ChangeLogController {
 		List<ChangeLog> changeLogs = clRepository.findByAudio(audio);
 		return changeLogs;
 	}
-	
+
 	@RequestMapping(value = "/{managerId}/{audioId}")
 	public ChangeLog saveChangeLog(@PathVariable("managerId") String managerId, 
 			@PathVariable("audioId") long audioId, @RequestBody String changeType)
@@ -57,6 +80,17 @@ public class ChangeLogController {
 		Audio audio = audRepository.findOne(audioId);
 		ChangeLog changeLog = new ChangeLog(changeType, audio, manager);
 		clRepository.save(changeLog);
+		return changeLog;
+	}
+*/
+	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
+	public ChangeLog saveChangeLog(@RequestBody ChangeLog changeLog)
+	{
+		try {
+			clRepository.save(changeLog);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return changeLog;
 	}
 }

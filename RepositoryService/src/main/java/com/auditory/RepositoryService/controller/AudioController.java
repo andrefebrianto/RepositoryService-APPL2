@@ -31,23 +31,31 @@ public class AudioController {
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Audio> getAudios(@RequestParam(value = "title", required = false) String title)
 	{
-		List<Audio> audios;
-		if (title != null)
-		{
-			audios = audRepository.findByAudioTitle(title);
-		}
-		else
-		{
-			audios = audRepository.findAll();	
-		}
+		List<Audio> audios = null;
+		try {
+			if (title != null)
+			{
+				audios = audRepository.findByAudioTitle(title);
+			}
+			else
+			{
+				audios = audRepository.findAll();	
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
 		return audios;
 	}
 	
 	@RequestMapping(value = "/{audioId}", method = RequestMethod.GET)
 	public Audio findAudioByAudioId(@PathVariable("audioId") long audioId)
 	{
-		Audio audio = new Audio();
-		audio = audRepository.findOne(audioId);
+		Audio audio = null;
+		try {
+			audio = audRepository.findOne(audioId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}	
 		return audio;
 	}
 /*
@@ -61,14 +69,22 @@ public class AudioController {
 	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public Audio saveAudio(@RequestBody Audio audio)
 	{
-		audRepository.save(audio);
+		try {
+			audRepository.save(audio);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
 		return audio;
 	}
 	
 	@RequestMapping(value = "/{audioId}", method = RequestMethod.DELETE)
 	public void deleteAudioByAudioId(@PathVariable("audioId") long audioId)
 	{
-		audRepository.delete(audioId);
+		try {
+			audRepository.delete(audioId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
 	}
 /*
 	@RequestMapping(value = "/{audioId}/{tagId}", method = {RequestMethod.POST, RequestMethod.PUT})
@@ -81,12 +97,19 @@ public class AudioController {
 	}
 */
 	@RequestMapping(value = "/{audioId}/{tagId}", method = RequestMethod.DELETE)
-	public void removeTagFromAudio(@PathVariable("audioId") long audioId, @PathVariable("tagId") long tagId)
+	public void removeTagFromAudio(@PathVariable("audioId") long audioId,
+			@PathVariable("tagId") long tagId)
 	{
-		Audio audio = audRepository.findOne(audioId);
-		Tag tag = tagRepository.findOne(tagId);
-		audio.removeTag(tag);
-		audRepository.save(audio);
+		Audio audio;
+		try {
+			audio = audRepository.findOne(audioId);
+			Tag tag = tagRepository.findOne(tagId);
+			audio.removeTag(tag);
+			audRepository.save(audio);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		
 	}
 	
 }

@@ -25,39 +25,64 @@ public class DatasetController {
 	AudioRepository audRepository;
 	
 	@RequestMapping(method = RequestMethod.GET)
-	public List<Dataset> findAllDataset()
+	public List<Dataset> findDataset(@RequestParam(value = "name", required = false) String datasetName)
 	{
-		List<Dataset> datasets = dataRepository.findAll();
+		List<Dataset> datasets = null;
+		try {
+			if(datasetName != null)
+			{
+				datasets = dataRepository.findByName(datasetName);
+			}
+			else
+			{
+				datasets = dataRepository.findAll();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return datasets;
 	}
-	
+/*
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Dataset> findDatasetByName(@RequestParam("name") String datasetName)
 	{
 		List<Dataset> datasets = dataRepository.findByName(datasetName);
 		return datasets;
 	}
-	
+*/
 	@RequestMapping(value = "/{datasetId}", method = RequestMethod.GET)
 	public Dataset findDatasetBy(@PathVariable("datasetId") long datasetId)
 	{
-		Dataset dataset = dataRepository.findOne(datasetId);
+		Dataset dataset = null;
+		try {
+			dataset = dataRepository.findOne(datasetId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dataset;
 	}
 	
 	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public Dataset createNewDataset(@RequestBody Dataset dataset)
-	{
-		dataRepository.save(dataset);
+	{		
+		try {
+			dataRepository.save(dataset);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return dataset;
 	}
 	
 	@RequestMapping(value = "/{datasetId}", method = RequestMethod.DELETE)
 	public void deleteDatasetbyDatasetId(@PathVariable("datasetId") long datasetId)
 	{
-		dataRepository.delete(datasetId);
+		try {
+			dataRepository.delete(datasetId);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}		
 	}
-	
+/*
 	@RequestMapping(value = "/{datasetId}/{audioId}", method = {RequestMethod.POST, RequestMethod.PUT})
 	public Audio addAudioToDataset(@PathVariable("datasetId") long datasetId,
 			@PathVariable("audioId") long audioId)
@@ -68,11 +93,14 @@ public class DatasetController {
 		dataRepository.save(dataset);
 		return audio;
 	}
-	
+*/
 	@RequestMapping(value = "/{datasetId}/{audioId}", method = RequestMethod.DELETE)
 	public void removeAudioFromDataset(@PathVariable("datasetId") long datasetId,
 			@PathVariable("audioId") long audioId)
 	{
-		
+		Audio audio = audRepository.findOne(audioId);
+		Dataset dataset = dataRepository.findOne(datasetId);
+		dataset.removeAudio(audio);
+		dataRepository.save(dataset);
 	}
 }

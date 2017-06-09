@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "RepositoryManager")
 public class RepositoryManager implements Serializable {
@@ -24,6 +26,7 @@ public class RepositoryManager implements Serializable {
 	private String password;
 	
 	@OneToMany(mappedBy = "manager")
+	@JsonIgnoreProperties("manager")
 	private List<ChangeLog> changelogs;
 	
 	public RepositoryManager()
@@ -72,7 +75,7 @@ public class RepositoryManager implements Serializable {
 		return changelogs;
 	}
 	
-	public void setChangeLog(List<ChangeLog> changelogs)
+	public void setChangeLogs(List<ChangeLog> changelogs)
 	{
 		this.changelogs = changelogs;
 	}

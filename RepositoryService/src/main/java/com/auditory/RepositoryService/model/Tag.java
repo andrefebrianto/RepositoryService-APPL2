@@ -23,7 +23,7 @@ public class Tag implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long tagId;
 	
 	@Column(nullable = false)
@@ -69,8 +69,13 @@ public class Tag implements Serializable {
 		this.audios.remove(audio);
 	}
 	
-	public List<Audio> getAllAudios()
+	public List<Audio> getAudios()
 	{
 		return audios;
+	}
+	
+	public void setAudios(List<Audio> audios)
+	{
+		this.audios = audios;
 	}
 }

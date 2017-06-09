@@ -2,12 +2,17 @@ package com.auditory.RepositoryService.model;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
 @Table(name = "ChangeLog")
@@ -18,17 +23,19 @@ public class ChangeLog implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss.SS")
 	private Timestamp changeTime;
 	
 	@Column(nullable = false)
 	private String changeType;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName = "audioId")
 	private Audio audio;
 	
-	@ManyToOne(optional = false)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(referencedColumnName = "managerId")
+	@JsonIgnoreProperties("changeLogs")
 	private RepositoryManager manager;
 	
 	public ChangeLog()
@@ -42,6 +49,11 @@ public class ChangeLog implements Serializable {
 		this.changeType = changeType;
 		this.audio = audio;
 		this.manager = manager;
+	}
+	
+	public void setChangeTime(Timestamp changeTime)
+	{
+		this.changeTime = changeTime;
 	}
 	
 	public Timestamp getChangeTime()
@@ -69,12 +81,12 @@ public class ChangeLog implements Serializable {
 		return audio;
 	}
 	
-	public void setRepositoryManager(RepositoryManager manager)
+	public void setManager(RepositoryManager manager)
 	{
 		this.manager = manager;
 	}
 	
-	public RepositoryManager getRepositoryManager()
+	public RepositoryManager getManager()
 	{
 		return manager;
 	}

@@ -3,6 +3,7 @@ package com.auditory.RepositoryService.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.auditory.RepositoryService.model.RepositoryManager;
 import com.auditory.RepositoryService.repository.RepositoryManagerRepository;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/manager")
 public class RepositoryManagerController {

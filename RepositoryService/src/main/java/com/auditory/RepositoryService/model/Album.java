@@ -1,7 +1,6 @@
 package com.auditory.RepositoryService.model;
 
 import java.io.Serializable;
-import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -23,14 +22,14 @@ public class Album implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long albumId;
 	
 	@Column(nullable = false)
 	private String name;
 	
 	@Column(nullable = false)
-	private Date releaseDate;
+	private int releaseYear;
 	
 	@OneToMany(mappedBy = "album")
 	@JsonIgnoreProperties("album")
@@ -41,11 +40,11 @@ public class Album implements Serializable {
 		
 	}
 	
-	public Album(long albumId, String name, Date releaseDate)
+	public Album(long albumId, String name, int releaseYear)
 	{
 		this.albumId = albumId;
 		this.name = name;
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 	}
 	
 	public void setAlbumId(long albumId)
@@ -68,14 +67,14 @@ public class Album implements Serializable {
 		return name;
 	}
 	
-	public void setReleaseDate(Date releaseDate)
+	public void setReleaseYear(int releaseYear)
 	{
-		this.releaseDate = releaseDate;
+		this.releaseYear = releaseYear;
 	}
 	
-	public Date getReleaseDate()
+	public int getReleaseYear()
 	{
-		return releaseDate;
+		return releaseYear;
 	}
 	
 	public void setAudios(List<Audio> audios)

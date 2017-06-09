@@ -1,8 +1,10 @@
 package com.auditory.RepositoryService.controller;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,6 +16,7 @@ import com.auditory.RepositoryService.repository.ChangeLogRepository;
 import com.auditory.RepositoryService.repository.RepositoryManagerRepository;
 import com.auditory.RepositoryService.model.*;
 
+@CrossOrigin
 @RestController
 @RequestMapping(value = "/changelog")
 public class ChangeLogController {
@@ -28,11 +31,11 @@ public class ChangeLogController {
 	
 	@RequestMapping(method = RequestMethod.GET)
 	public List<ChangeLog> getChangeLogs(@RequestParam(value = "managerId", required = false) String managerId,
-			@RequestParam(value = "audioId", required = false) long audioId)
+			@RequestParam(value = "audioId", required = false) Long audioId)
 	{
 		List<ChangeLog> changeLogs = null;
 		try {
-			if(managerId != null && audioId >= 0)
+			if(managerId != null && audioId != null)
 			{
 				RepositoryManager manager = rmRepository.findOne(managerId);
 				Audio audio = audRepository.findOne(audioId);
@@ -43,7 +46,7 @@ public class ChangeLogController {
 				RepositoryManager manager = rmRepository.findOne(managerId);
 				changeLogs = clRepository.findByManager(manager);
 			}
-			else if (audioId >= 0) {
+			else if (audioId != null) {
 				Audio audio = audRepository.findOne(audioId);
 				changeLogs = clRepository.findByAudio(audio);
 			}
@@ -86,6 +89,7 @@ public class ChangeLogController {
 	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public ChangeLog saveChangeLog(@RequestBody ChangeLog changeLog)
 	{
+		changeLog.setChangeTime(new Timestamp(System.currentTimeMillis()));
 		try {
 			clRepository.save(changeLog);
 		} catch (Exception e) {

@@ -28,6 +28,7 @@ public class TagController {
 			tags = tagRepository.findAll();		
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return tags;
 	}
@@ -40,6 +41,7 @@ public class TagController {
 			tag = tagRepository.findOne(tagId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return tag;
 	}
@@ -51,6 +53,7 @@ public class TagController {
 			tagRepository.save(tag);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return tag;
 	}
@@ -62,6 +65,7 @@ public class TagController {
 			tagRepository.delete(tagId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 	}
 }

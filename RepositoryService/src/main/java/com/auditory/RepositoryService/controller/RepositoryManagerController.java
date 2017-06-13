@@ -28,6 +28,7 @@ public class RepositoryManagerController {
 			managers = rmRepository.findAll();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return managers;
 	}
@@ -40,6 +41,7 @@ public class RepositoryManagerController {
 			manager = rmRepository.findOne(managerId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return manager;
 	}
@@ -51,6 +53,7 @@ public class RepositoryManagerController {
 			rmRepository.delete(managerId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 	}
 	
@@ -61,6 +64,7 @@ public class RepositoryManagerController {
 			rmRepository.save(manager);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return manager;
 	}

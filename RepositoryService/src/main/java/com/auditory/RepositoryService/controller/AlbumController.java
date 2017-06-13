@@ -51,6 +51,7 @@ public class AlbumController {
 		}
 		catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return album;
 	}
@@ -76,7 +77,7 @@ public class AlbumController {
 		}
 		catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e);
+			System.err.println(e);
 		}
 		return album;
 	}
@@ -88,6 +89,7 @@ public class AlbumController {
 			albRepository.delete(albumId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}	
 	}
 }

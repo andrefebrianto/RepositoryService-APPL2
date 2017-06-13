@@ -3,7 +3,6 @@ package com.auditory.RepositoryService.model;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -42,7 +41,7 @@ public class Audio implements Serializable {
 	@JsonIgnoreProperties("audios")
 	private List<Tag> tags;
 	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false)
 	@JoinColumn(referencedColumnName = "categoryId")
 	@JsonIgnoreProperties("audios")
 	private Category category;

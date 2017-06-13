@@ -33,6 +33,7 @@ public class CategoryController {
 			categories = catRepository.findAll();
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return categories;
 	}
@@ -45,6 +46,7 @@ public class CategoryController {
 			category = catRepository.findOne(categoryId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 		return category;
 	}
@@ -58,7 +60,7 @@ public class CategoryController {
 		}
 		catch (Exception e) {
 			// TODO: handle exception
-			System.out.println(e);
+			System.err.println(e);
 		}
 		return category;
 	}
@@ -70,6 +72,7 @@ public class CategoryController {
 			catRepository.delete(categoryId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 	}
 
@@ -86,6 +89,7 @@ public class CategoryController {
 			catRepository.save(category);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 	}
 }

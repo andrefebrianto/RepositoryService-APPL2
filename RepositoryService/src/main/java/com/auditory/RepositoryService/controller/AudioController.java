@@ -45,6 +45,7 @@ public class AudioController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 		return audios;
 	}
@@ -57,6 +58,7 @@ public class AudioController {
 			audio = audRepository.findOne(audioId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}	
 		return audio;
 	}
@@ -75,6 +77,7 @@ public class AudioController {
 			audRepository.save(audio);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 		return audio;
 	}
@@ -86,6 +89,7 @@ public class AudioController {
 			audRepository.delete(audioId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 	}
 /*
@@ -110,8 +114,7 @@ public class AudioController {
 			audRepository.save(audio);
 		} catch (Exception e) {
 			// TODO: handle exception
-		}
-		
+			System.err.println(e);
+		}	
 	}
-	
 }

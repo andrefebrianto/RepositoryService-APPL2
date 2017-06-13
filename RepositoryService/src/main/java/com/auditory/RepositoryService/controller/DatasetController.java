@@ -41,6 +41,7 @@ public class DatasetController {
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return datasets;
 	}
@@ -60,6 +61,7 @@ public class DatasetController {
 			dataset = dataRepository.findOne(datasetId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return dataset;
 	}
@@ -71,6 +73,7 @@ public class DatasetController {
 			dataRepository.save(dataset);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return dataset;
 	}
@@ -82,6 +85,7 @@ public class DatasetController {
 			dataRepository.delete(datasetId);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}		
 	}
 /*
@@ -100,9 +104,14 @@ public class DatasetController {
 	public void removeAudioFromDataset(@PathVariable("datasetId") long datasetId,
 			@PathVariable("audioId") long audioId)
 	{
-		Audio audio = audRepository.findOne(audioId);
-		Dataset dataset = dataRepository.findOne(datasetId);
-		dataset.removeAudio(audio);
-		dataRepository.save(dataset);
+		try {
+			Audio audio = audRepository.findOne(audioId);
+			Dataset dataset = dataRepository.findOne(datasetId);
+			dataset.removeAudio(audio);
+			dataRepository.save(dataset);
+		} catch (Exception e) {
+			// TODO: handle exception
+			System.err.println(e);
+		}		
 	}
 }

@@ -3,7 +3,6 @@ package com.auditory.RepositoryService.model;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -29,11 +28,11 @@ public class ChangeLog implements Serializable {
 	@Column(nullable = false)
 	private String changeType;
 	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false)
 	@JoinColumn(referencedColumnName = "audioId")
 	private Audio audio;
 	
-	@ManyToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false)
 	@JoinColumn(referencedColumnName = "managerId")
 	@JsonIgnoreProperties("changeLogs")
 	private RepositoryManager manager;

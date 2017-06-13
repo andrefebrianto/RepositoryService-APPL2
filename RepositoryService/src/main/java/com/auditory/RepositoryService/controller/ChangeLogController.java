@@ -54,7 +54,8 @@ public class ChangeLogController {
 				changeLogs = clRepository.findAll();
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+			// TODO: handle exception\
+			System.err.println(e);
 		}
 		return changeLogs;
 	}
@@ -89,11 +90,13 @@ public class ChangeLogController {
 	@RequestMapping(method = {RequestMethod.POST, RequestMethod.PUT})
 	public ChangeLog saveChangeLog(@RequestBody ChangeLog changeLog)
 	{
-		changeLog.setChangeTime(new Timestamp(System.currentTimeMillis()));
+		if (changeLog.getChangeTime() == null)
+			changeLog.setChangeTime(new Timestamp(System.currentTimeMillis()));
 		try {
 			clRepository.save(changeLog);
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.err.println(e);
 		}
 		return changeLog;
 	}
